@@ -11,12 +11,12 @@
             <el-row>
                 <el-col :span="4">
                     <!-- 物料堆 -->
-                    <div class="comonent-stack">
+                    <div class="comonent-stack block">
                         <div class="component-title">
                             物料堆
                         </div>
                         <ul>
-                            <li v-for="(item,index) in stacks" :key="index">
+                            <li v-for="(item,index) in stacks" :key="index" :draggable="true" @drag="handleDrag" class="component-item">
                                 {{ item }}
                             </li>
                         </ul>
@@ -25,17 +25,22 @@
                 <el-col :span="16">
                     <!-- 主舞台 -->
                     <div class="stage">
-                        <div class="component-title">
-                            <li v-for="(item,index) in components" :key="index">
+                        <div class="component-title block">
+                            主舞台
+                        </div>
+                        <!-- <render-engine ref="engine" :json-schema="jsonSchema"></render-engine> -->
+                        <ul>
+                            <li v-for="(item,index) in components" :key="index" @dragover.prevent @drop.stop="">
+
                                 <component :is="item"></component>
                             </li>
-                        </div>
+                        </ul>
                     </div>
                 </el-col>
                 <el-col :span="4">
                     <!-- 配置面板 -->
                     <div class="config-panel">
-                        <div class="component-title">
+                        <div class="component-title block">
                             配置面板
                         </div>
                     </div>
@@ -46,19 +51,58 @@
 </template>
 
 <script>
-    import components from '../components';
+    import { components } from '../components';
+    import renderEngine from '../fragments/renderEngine.vue'
     export default {
-        components:{ ...components },
+        components:{ ...components,renderEngine },
         data() {
             return {
                 // 需要加到配置系统中的组件
-                stacks: ['choseButton','choseInput','Container'],
-                components:[]
+                stacks: ['cButton','cInput','Container'],
+                components:[],
+                // 当亲操作的数组
+                currentJson:{},
+                // 数据库拿到的协议
+                jsonSchema:{
+                    page:{
+                        type:'Container',
+                        children:[{
+                            type:'Container',
+                            children:[
+                                {type:'cInput'},
+                                {type:'cButton'},
+                            ]
+                        }]
+                    }
+                }
+            }
+        },
+        methods: {
+            // 拾取被配置组件
+            handleDrag() {
+                
             }
         },
     }
 </script>
     
-<style lang="scss" scoped>
+<style scoped>
+.block {
+    border: 1px solid #edbede;
+    height: 100vh;
+}
 
+/* 物料堆 */
+.compoent-stack {
+
+}
+.component-title {
+    padding: 10px;
+}
+.component-item {
+    border: 1px solid #edbede;
+    margin: 2px 5px;
+    padding: 10px 0;
+    border-radius: 18px;
+}
 </style> 
