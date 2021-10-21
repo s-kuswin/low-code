@@ -16,7 +16,7 @@
                             物料堆
                         </div>
                         <ul>
-                            <li v-for="(item,index) in stacks" :key="index" :draggable="true" @drag="handleDrag" class="component-item">
+                            <li v-for="(item,index) in stacks" :key="index" :draggable="true" @drag="handleDrag(item)" class="component-item">
                                 {{ item }}
                             </li>
                         </ul>
@@ -24,17 +24,14 @@
                 </el-col>
                 <el-col :span="16">
                     <!-- 主舞台 -->
-                    <div class="stage">
-                        <div class="component-title block">
-                            主舞台
-                        </div>
-                        <!-- <render-engine ref="engine" :json-schema="jsonSchema"></render-engine> -->
-                        <ul>
-                            <li v-for="(item,index) in components" :key="index" @dragover.prevent @drop.stop="">
-
+                    <div class="stage block"  @dragover.prevent @drop.stop="handleDropContainer">
+                        <render-engine ref="engine" :json-schema="jsonSchema"></render-engine>
+                        <!-- <ul>
+                            <li v-for="(item,index) in components" :key="index">
+                                {{ item }}
                                 <component :is="item"></component>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </el-col>
                 <el-col :span="4">
@@ -58,7 +55,7 @@
         data() {
             return {
                 // 需要加到配置系统中的组件
-                stacks: ['cButton','cInput','Container'],
+                stacks: ['CButton','CInput','Container'],
                 components:[],
                 // 当亲操作的数组
                 currentJson:{},
@@ -69,18 +66,23 @@
                         children:[{
                             type:'Container',
                             children:[
-                                {type:'cInput'},
-                                {type:'cButton'},
+                                {type:'CInput'},
+                                {type:'CButton'},
                             ]
                         }]
                     }
-                }
+                },
+                // 当前拾取类型
+                selectType:''
             }
         },
         methods: {
             // 拾取被配置组件
-            handleDrag() {
-                
+            handleDrag(e) {
+                this.selectType = e
+            },
+            handleDropContainer() {
+                this.components.push(this.selectType)
             }
         },
     }

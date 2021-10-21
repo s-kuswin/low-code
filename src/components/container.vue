@@ -4,13 +4,15 @@
  * @Date: 2021-10-15 14:49:52
 -->
 <template>
-<el-input></el-input>
+<div class="container">
+    <slot></slot>
+</div>
 </template>
 
 <script>
 // 默认输入组件
 export default {
-  name: 'cInput',
+  name: 'Container',
   data() {
       return {
 
@@ -18,3 +20,10 @@ export default {
   },
 }
 </script>
+<style scoped>
+.container {
+    background-color: var(--mainBg);
+    min-height: 300px;
+    width: 100%;
+}
+</style>

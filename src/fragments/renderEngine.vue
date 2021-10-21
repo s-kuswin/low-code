@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-20 15:49:44
- * @LastEditTime: 2021-10-20 17:09:30
+ * @LastEditTime: 2021-10-21 17:07:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \low-code\src\components\renderEngine.vue
 -->
 <script>
-import { components } from '../components'
+import { components, parsers } from '../components'
     export default {
         name:'renderEngine',
         props:{
@@ -43,6 +43,7 @@ import { components } from '../components'
             // 渲染组件
             renderComponents(h,section) {
                 // 是否有子节点
+                // 组件通用逻辑再此添加
                 let _children = null
                 if(section.children) {
                     // 层级渲染
@@ -58,13 +59,19 @@ import { components } from '../components'
             },
             // 开始渲染
             startRender(h, section, _children) {
-                const _type = section.type
-                console.log(_type,'startRender',_children);
+                const _type = section.type;
+                const renderMod = parsers[_type];
+                // 直接渲染
+                if(renderMod) {
+                    return renderMod.render.call(this,h,section,_children)
+                }
+                console.log(_type,'startRender',_children,renderMod);
             }
 
         },
         components:{
-            ...components
+            ...components,
+            ...parsers
         },
         render(h) {
             let _vode = this.renderRoot(h)
