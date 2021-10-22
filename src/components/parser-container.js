@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-21 16:21:19
- * @LastEditTime: 2021-10-21 16:41:38
+ * @LastEditTime: 2021-10-22 17:10:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \low-code\src\components\parser-button.js
@@ -14,6 +14,9 @@ export default {
     compoents:{container},
     render(h,section,children) {
         console.log(h,section);
+        const _props = {
+            
+        }
         return (
             <container>{ children }</container>
         )

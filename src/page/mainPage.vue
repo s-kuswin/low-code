@@ -24,7 +24,7 @@
                 </el-col>
                 <el-col :span="16">
                     <!-- 主舞台 -->
-                    <div class="stage block"  @dragover.prevent @drop.stop="handleDropContainer">
+                    <div class="stage block"  @dragover.prevent @drop.stop="handleDrop">
                         <render-engine ref="engine" :json-schema="jsonSchema"></render-engine>
                         <!-- <ul>
                             <li v-for="(item,index) in components" :key="index">
@@ -81,7 +81,9 @@
             handleDrag(e) {
                 this.selectType = e
             },
-            handleDropContainer() {
+            handleDrop() {
+                const _type = this.selectType
+                console.log(_type);
                 this.components.push(this.selectType)
             }
         },

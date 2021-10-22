@@ -4,7 +4,7 @@
  * @Date: 2021-10-15 14:49:52
 -->
 <template>
-<div class="container">
+<div class="container" @dragover.prevent @drop.stop="handleDrop">
     <slot></slot>
 </div>
 </template>
@@ -13,11 +13,25 @@
 // 默认输入组件
 export default {
   name: 'Container',
+  props:{
+      jsonSchema:{
+          type:Object,
+          default:function() {
+
+          }
+      }
+  },
   data() {
       return {
 
       }
   },
+  methods:{
+    //   组件被放入组件container回调
+      handleDrop(e) {
+          console.log(e);
+      }
+  }
 }
 </script>
 <style scoped>
