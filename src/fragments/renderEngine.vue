@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-20 15:49:44
- * @LastEditTime: 2021-10-21 17:07:41
+ * @LastEditTime: 2021-10-26 17:34:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \low-code\src\components\renderEngine.vue
@@ -16,6 +16,11 @@ import { components, parsers } from '../components'
                 default:() => {
                     return {}
                 }
+            },
+            // 新增拖入的节点
+            addNode: {
+                type:String,
+                default: ''
             }
         },
         data() {
@@ -66,8 +71,31 @@ import { components, parsers } from '../components'
                     return renderMod.render.call(this,h,section,_children)
                 }
                 console.log(_type,'startRender',_children,renderMod);
-            }
+            },
 
+            // 以下为配置系统统一化处理逻辑
+            // 拖拽组件经过触发
+            handleDragOver() {
+
+            },
+
+            // 拖拽组件松手
+            handleDrop(event,vm) {
+                const _json = vm.jsonSchema
+
+                // 当是container组件的时候
+                if(_json && _json.type === 'Container') {
+                    if(!_json.children) {
+                        // 如果没有子组件的时候，设置其子组件为空数组
+                        this.$set(_json,'children', [])
+                    }
+
+                    // 将拖拽的节点添加到contaniner子组件中
+                    _json.children.push({
+                        type: this.addNode
+                    })
+                }
+            }
         },
         components:{
             ...components,

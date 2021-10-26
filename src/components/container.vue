@@ -17,7 +17,7 @@ export default {
       jsonSchema:{
           type:Object,
           default:function() {
-
+              return {}
           }
       }
   },
@@ -30,6 +30,7 @@ export default {
     //   组件被放入组件container回调
       handleDrop(e) {
           console.log(e);
+          this.$emit('drop', e, this)
       }
   }
 }
@@ -38,6 +39,7 @@ export default {
 .container {
     background-color: var(--mainBg);
     min-height: 300px;
+    border: 1px solid greenyellow;
     width: 100%;
 }
 </style>

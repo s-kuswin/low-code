@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-21 16:21:19
- * @LastEditTime: 2021-10-21 16:41:43
+ * @LastEditTime: 2021-10-26 17:40:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \low-code\src\components\parser-button.js
@@ -13,8 +13,13 @@ export default {
     compoents:{cInput},
     render(h,section,children) {
         console.log(h,section,children);
+        const _propsOn = {
+
+        }
         return (
-            <cInput></cInput>
+            <cInput
+            { ..._propsOn }
+            ></cInput>
         )
     }
 }

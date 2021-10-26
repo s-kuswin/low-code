@@ -24,8 +24,10 @@
                 </el-col>
                 <el-col :span="16">
                     <!-- 主舞台 -->
-                    <div class="stage block"  @dragover.prevent @drop.stop="handleDrop">
-                        <render-engine ref="engine" :json-schema="jsonSchema"></render-engine>
+                    <div class="stage block"  @dragover.prevent @drop="handleDrop">
+                        <render-engine ref="engine" 
+                            :json-schema="jsonSchema" :addNode="selectedType"
+                        ></render-engine>
                         <!-- <ul>
                             <li v-for="(item,index) in components" :key="index">
                                 {{ item }}
@@ -73,20 +75,28 @@
                     }
                 },
                 // 当前拾取类型
-                selectType:''
+                selectedType:''
             }
         },
         methods: {
             // 拾取被配置组件
             handleDrag(e) {
-                this.selectType = e
+                this.selectedType = e
             },
+            // 放手
             handleDrop() {
-                const _type = this.selectType
+                const _type = this.selectedType
                 console.log(_type);
-                this.components.push(this.selectType)
+                this.components.push(_type)
+            },
+            // 放手于container上
+            handleDropContainer(item) {
+                item.innerType = this.selectedType
             }
         },
+        created() {
+            this.currentJson = this.jsonSchema
+        }
     }
 </script>
     
